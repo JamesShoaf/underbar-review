@@ -161,9 +161,13 @@
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
     var output = [];
-    _.each(collection, function(element) {
-      output.push(iterator(collection[element], element, collection));
-    });
+    var mapFunction = function(num) {
+      output.push(iterator(num));
+    };
+    _.map(collection, mapFunction);
+    // _.each(collection, function(element) {
+    //   output.push(iterator(collection[element], element, collection));
+    // });
     return output;
   };
 
