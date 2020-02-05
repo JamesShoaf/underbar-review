@@ -117,13 +117,35 @@
     if (!Array.isArray(array)) {
       return;
     }
-    var output = [];
-    if (!isSorted) {
-
+    var output = [];//output array
+    //sorted
+    if (isSorted === true) {
+      //if iterator is undefined, store values from array in dictionary
+      if (iterator === undefined) {
+        var dictionary = {};
+        //for each value, if it is not in the dictionary, push it to the array
+        for (let i = 0; i < array.length; i++) {
+          if (dictionary[array[i]] === undefined) {
+            dictionary[array[i]] = array[i];
+            output.push(array[i]);
+          }
+        }
+      } else {
+        //if iterator is defined
+        var dictionary = {};
+        //add the iterator(value) to the dictionary instead
+        for (let i = 0; i < array.length; i++) {
+          var iterated = iterator(array[i]);
+          if (dictionary[iterated] === undefined) {
+            dictionary[iterated] = iterated;
+            output.push(array[i]);
+          }
+        }
+      }
     } else {
       var dictionary = {};
       for (let i = 0; i < array.length; i++) {
-        if (!dictionary[array[i]]) {
+        if (dictionary[array[i]] === undefined) {
           dictionary[array[i]] = array[i];
           output.push(array[i]);
         }
@@ -138,6 +160,11 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var output = [];
+    _.each(collection, function(element) {
+      output.push(iterator(collection[element], element, collection));
+    });
+    return output;
   };
 
   /*
